@@ -10,6 +10,7 @@ Group:		Development/Languages/PHP
 Source0:	http://pecl.php.net/get/%{_modname}-%{version}.tgz
 # Source0-md5:	646c3ffb622adc0379a3951155f7f4bb
 URL:		http://pecl.php.net/package/memcached/
+BuildRequires:	libmemcached-devel
 BuildRequires:	php-devel >= 3:5.0.0
 BuildRequires:	rpmbuild(macros) >= 1.344
 %{?requires_php_extension}
