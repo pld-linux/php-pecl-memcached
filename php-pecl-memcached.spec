@@ -1,14 +1,14 @@
 %define		_modname	memcached
-%define		_status		beta
+%define		_status		stable
 Summary:	interface to memcached via libmemcached library
 Summary(pl.UTF-8):	interfejs do memcached z użyciem biblioteki libmemcached
 Name:		php-pecl-%{_modname}
-Version:	0.2.0
+Version:	1.0.0
 Release:	1
 License:	PHP
 Group:		Development/Languages/PHP
 Source0:	http://pecl.php.net/get/%{_modname}-%{version}.tgz
-# Source0-md5:	4a5eb666956ab69567fa9e76719669ae
+# Source0-md5:	b5b0b438aa8e444840a7a4aff515db2a
 URL:		http://pecl.php.net/package/memcached/
 BuildRequires:	libmemcached-devel
 BuildRequires:	php-devel >= 3:5.0.0
