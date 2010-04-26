@@ -1,14 +1,14 @@
-%define		_modname	memcached
-%define		_status		stable
+%define		modname	memcached
+%define		status		stable
 Summary:	interface to memcached via libmemcached library
 Summary(pl.UTF-8):	interfejs do memcached z użyciem biblioteki libmemcached
-Name:		php-pecl-%{_modname}
-Version:	1.0.0
-Release:	3
+Name:		php-pecl-%{modname}
+Version:	1.0.1
+Release:	1
 License:	PHP
 Group:		Development/Languages/PHP
-Source0:	http://pecl.php.net/get/%{_modname}-%{version}.tgz
-# Source0-md5:	b5b0b438aa8e444840a7a4aff515db2a
+Source0:	http://pecl.php.net/get/%{modname}-%{version}.tgz
+# Source0-md5:	a3773f656fcf5f7c7e133075853f6b40
 URL:		http://pecl.php.net/package/memcached/
 BuildRequires:	libmemcached-devel
 BuildRequires:	php-devel >= 3:5.0.0
@@ -21,17 +21,17 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 This extension uses libmemcached library to provide API for
 communicating with memcached servers.
 
-In PECL status of this extension is: %{_status}.
+In PECL status of this extension is: %{status}.
 
 %description -l pl.UTF-8
 Roszerzenie to wykorzystuje bibliotekę memcached w celu udostępnienia
 API do komunikacji z serwerami memcached.
 
-To rozszerzenie ma w PECL status: %{_status}.
+To rozszerzenie ma w PECL status: %{status}.
 
 %prep
 %setup -q -c
-mv %{_modname}-%{version}/* .
+mv %{modname}-%{version}/* .
 
 %build
 phpize
@@ -45,9 +45,9 @@ install -d $RPM_BUILD_ROOT%{php_sysconfdir}/conf.d
 %{__make} install \
 	INSTALL_ROOT=$RPM_BUILD_ROOT \
 	EXTENSION_DIR=%{php_extensiondir}
-cat <<'EOF' > $RPM_BUILD_ROOT%{php_sysconfdir}/conf.d/%{_modname}.ini
-; Enable %{_modname} extension module
-extension=%{_modname}.so
+cat <<'EOF' > $RPM_BUILD_ROOT%{php_sysconfdir}/conf.d/%{modname}.ini
+; Enable %{modname} extension module
+extension=%{modname}.so
 EOF
 
 %clean
@@ -63,6 +63,6 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc CREDITS EXPERIMENTAL
-%config(noreplace) %verify(not md5 mtime size) %{php_sysconfdir}/conf.d/%{_modname}.ini
-%attr(755,root,root) %{php_extensiondir}/%{_modname}.so
+%doc CREDITS
+%config(noreplace) %verify(not md5 mtime size) %{php_sysconfdir}/conf.d/%{modname}.ini
+%attr(755,root,root) %{php_extensiondir}/%{modname}.so
