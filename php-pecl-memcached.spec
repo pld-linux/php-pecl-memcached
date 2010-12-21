@@ -24,7 +24,7 @@ communicating with memcached servers.
 In PECL status of this extension is: %{status}.
 
 %description -l pl.UTF-8
-Roszerzenie to wykorzystuje bibliotekę memcached w celu udostępnienia
+Rozszerzenie to wykorzystuje bibliotekę memcached w celu udostępnienia
 API do komunikacji z serwerami memcached.
 
 To rozszerzenie ma w PECL status: %{status}.
