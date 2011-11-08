@@ -4,7 +4,7 @@ Summary:	interface to memcached via libmemcached library
 Summary(pl.UTF-8):	interfejs do memcached z użyciem biblioteki libmemcached
 Name:		php-pecl-%{modname}
 Version:	1.0.2
-Release:	7
+Release:	8
 License:	PHP
 Group:		Development/Languages/PHP
 Source0:	http://pecl.php.net/get/%{modname}-%{version}.tgz
