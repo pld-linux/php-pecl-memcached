@@ -3,19 +3,21 @@
 Summary:	interface to memcached via libmemcached library
 Summary(pl.UTF-8):	interfejs do memcached z użyciem biblioteki libmemcached
 Name:		php-pecl-%{modname}
-Version:	1.0.2
-Release:	10
-License:	PHP
+Version:	2.0.1
+Release:	1
+License:	PHP 3.01
 Group:		Development/Languages/PHP
 Source0:	http://pecl.php.net/get/%{modname}-%{version}.tgz
-# Source0-md5:	b91f815ad59086d0c3564cce022b5c4f
+# Source0-md5:	f81a5261be1c9848ed5c071a4ebe5e05
 URL:		http://pecl.php.net/package/memcached/
+BuildRequires:	cyrus-sasl-devel
 BuildRequires:	libmemcached-devel
-BuildRequires:	php-devel >= 3:5.0.0
+BuildRequires:	php-devel >= 4:5.2.0
 BuildRequires:	rpmbuild(macros) >= 1.344
 BuildRequires:	zlib-devel
 %{?requires_php_extension}
-Requires:	php-common >= 4:5.0.4
+Requires:	php-common >= 4:5.2.0
+Suggests:	php-pecl-igbinary
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -36,7 +38,8 @@ mv %{modname}-%{version}/* .
 
 %build
 phpize
-%configure
+%configure \
+	--enable-memcached-json
 %{__make}
 
 %install
@@ -49,7 +52,9 @@ install -d $RPM_BUILD_ROOT%{php_sysconfdir}/conf.d
 cat <<'EOF' > $RPM_BUILD_ROOT%{php_sysconfdir}/conf.d/%{modname}.ini
 ; Enable %{modname} extension module
 extension=%{modname}.so
+
 EOF
+cat %{modname}.ini >> $RPM_BUILD_ROOT%{php_sysconfdir}/conf.d/%{modname}.ini
 
 %clean
 rm -rf $RPM_BUILD_ROOT
