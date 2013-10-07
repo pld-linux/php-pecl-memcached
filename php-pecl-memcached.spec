@@ -5,15 +5,15 @@ Summary:	Interface to memcached via libmemcached library
 Summary(pl.UTF-8):	Interfejs do memcached z użyciem biblioteki libmemcached
 Name:		%{php_name}-pecl-%{modname}
 Version:	2.1.0
-Release:	2
+Release:	3
 License:	PHP 3.01
 Group:		Development/Languages/PHP
 Source0:	http://pecl.php.net/get/%{modname}-%{version}.tgz
 # Source0-md5:	daf070aad13bebffdff50acf6e93043c
 URL:		http://pecl.php.net/package/memcached/
+BuildRequires:	%{php_name}-devel >= 4:5.2.0
 BuildRequires:	cyrus-sasl-devel
 BuildRequires:	libmemcached-devel >= 1.0
-BuildRequires:	%{php_name}-devel >= 4:5.2.0
 BuildRequires:	rpmbuild(macros) >= 1.650
 BuildRequires:	zlib-devel
 %{?requires_php_extension}
