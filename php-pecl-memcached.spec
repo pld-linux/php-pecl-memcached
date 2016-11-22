@@ -13,7 +13,7 @@ URL:		http://pecl.php.net/package/memcached/
 BuildRequires:	%{php_name}-devel >= 4:5.2.0
 BuildRequires:	cyrus-sasl-devel
 BuildRequires:	fastlz-devel
-BuildRequires:	libmemcached-devel >= 1.0.2
+BuildRequires:	libmemcached-devel >= 1.0.18
 BuildRequires:	rpmbuild(macros) >= 1.650
 BuildRequires:	zlib-devel
 %{?requires_php_extension}
