@@ -1,6 +1,6 @@
 #
 # Conditional build:
-%bcond_with	igbinary	# memcached igbinary serializer support
+%bcond_without	igbinary	# memcached igbinary serializer support
 %bcond_without	json		# memcached json serializer support
 %bcond_with	msgpack		# memcached msgpack serializer support
 %bcond_without	sasl		# memcached sasl support
@@ -55,6 +55,10 @@ API do komunikacji z serwerami memcached.
 mv php-memcached-*/{.??*,*} .
 
 rm fastlz/fastlz.c
+
+# redirect tests fail (the actual tests they redirect work)
+rm tests/experimental/serializer_igbinary.phpt
+rm tests/experimental/serializer_json.phpt
 
 %build
 phpize
