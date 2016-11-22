@@ -1,15 +1,14 @@
 %define		php_name	php%{?php_suffix}
 %define		modname	memcached
-%define		status		stable
 Summary:	Interface to memcached via libmemcached library
 Summary(pl.UTF-8):	Interfejs do memcached z użyciem biblioteki libmemcached
 Name:		%{php_name}-pecl-%{modname}
-Version:	2.2.0
-Release:	2
+Version:	3.0.0
+Release:	0.1
 License:	PHP 3.01
 Group:		Development/Languages/PHP
-Source0:	http://pecl.php.net/get/%{modname}-%{version}.tgz
-# Source0-md5:	28937c6144f734e000c6300242f44ce6
+Source0:	https://github.com/php-memcached-dev/php-memcached/archive/php7/%{modname}-%{version}.tar.gz
+# Source0-md5:	df81b124ac101bd21922deb0ef2ad9b9
 URL:		http://pecl.php.net/package/memcached/
 BuildRequires:	%{php_name}-devel >= 4:5.2.0
 BuildRequires:	cyrus-sasl-devel
@@ -26,17 +25,13 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 This extension uses libmemcached library to provide API for
 communicating with memcached servers.
 
-In PECL status of this extension is: %{status}.
-
 %description -l pl.UTF-8
 Rozszerzenie to wykorzystuje bibliotekę memcached w celu udostępnienia
 API do komunikacji z serwerami memcached.
 
-To rozszerzenie ma w PECL status: %{status}.
-
 %prep
-%setup -q -c
-mv %{modname}-%{version}/* .
+%setup -qc
+mv php-memcached-*/{.??*,*} .
 
 %build
 phpize
