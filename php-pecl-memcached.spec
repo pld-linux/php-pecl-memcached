@@ -14,7 +14,7 @@ Summary(pl.UTF-8):	Interfejs do memcached z użyciem biblioteki libmemcached
 Name:		%{php_name}-pecl-%{modname}
 # for PHP < 7 support see 2.2.x branch
 Version:	3.0.0
-Release:	0.4
+Release:	1
 License:	PHP 3.01
 Group:		Development/Languages/PHP
 Source0:	https://github.com/php-memcached-dev/php-memcached/archive/php7/%{modname}-%{version}.tar.gz
@@ -32,6 +32,7 @@ BuildRequires:	rpmbuild(macros) >= 1.650
 BuildRequires:	zlib-devel
 %if %{with tests}
 BuildRequires:	%{php_name}-cli
+BuildRequires:	%{php_name}-pcre
 %{?with_igbinary:BuildRequires:	%{php_name}-pecl-igbinary}
 %{?with_msgpack:BuildRequires:	%{php_name}-pecl-msgpack}
 %{?with_session:BuildRequires:	%{php_name}-session}
@@ -78,6 +79,7 @@ phpize
 # simple module load test
 %{__php} -n -q \
 	-d extension_dir=modules \
+	-d extension=%{php_extensiondir}/pcre.so \
 	-d extension=%{php_extensiondir}/spl.so \
 %if %{with session}
 	-d extension=%{php_extensiondir}/session.so \
