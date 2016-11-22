@@ -5,6 +5,7 @@
 %bcond_with	msgpack		# memcached msgpack serializer support
 %bcond_without	sasl		# memcached sasl support
 %bcond_without	session		# memcached session handler support
+%bcond_without	tests		# build without tests
 
 %define		php_name	php%{?php_suffix}
 %define		modname	memcached
@@ -13,7 +14,7 @@ Summary(pl.UTF-8):	Interfejs do memcached z użyciem biblioteki libmemcached
 Name:		%{php_name}-pecl-%{modname}
 # PHP >= 7 only, for older PHP see 2.2.x branch
 Version:	3.0.0
-Release:	0.2
+Release:	0.3
 License:	PHP 3.01
 Group:		Development/Languages/PHP
 Source0:	https://github.com/php-memcached-dev/php-memcached/archive/php7/%{modname}-%{version}.tar.gz
@@ -27,6 +28,11 @@ BuildRequires:	pkgconfig
 BuildRequires:	re2c
 BuildRequires:	rpmbuild(macros) >= 1.650
 BuildRequires:	zlib-devel
+%if %{with tests}
+BuildRequires:	%{php_name}-cli
+BuildRequires:	%{php_name}-spl
+%{?with_session:BuildRequires:	%{php_name}-session}
+%endif
 %{?requires_php_extension}
 Suggests:	%{php_name}-pecl-igbinary
 Provides:	php(%{modname}) = %{version}
@@ -57,6 +63,25 @@ phpize
 	%{__enable_disable session memcached-session} \
 	--with-system-fastlz
 %{__make}
+
+%if %{with tests}
+# simple module load test
+%{__php} -n -q \
+	-d extension_dir=modules \
+	-d extension=%{php_extensiondir}/spl.so \
+%if %{with session}
+	-d extension=%{php_extensiondir}/session.so \
+%endif
+	-d extension=%{modname}.so \
+	-m > modules.log
+grep %{modname} modules.log
+
+export NO_INTERACTION=1 REPORT_EXIT_STATUS=1 MALLOC_CHECK_=2
+%{__make} test \
+	PHP_EXECUTABLE=%{__php} \
+	PHP_TEST_SHARED_SYSTEM_EXTENSIONS="spl%{?with_session: session}"
+
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
