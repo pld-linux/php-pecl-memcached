@@ -1,17 +1,26 @@
+#
+# Conditional build:
+%bcond_with	igbinary	# memcached igbinary serializer support
+%bcond_without	json		# memcached json serializer support
+%bcond_with	msgpack		# memcached msgpack serializer support
+%bcond_without	sasl		# memcached sasl support
+%bcond_without	session		# memcached session handler support
+
 %define		php_name	php%{?php_suffix}
 %define		modname	memcached
 Summary:	Interface to memcached via libmemcached library
 Summary(pl.UTF-8):	Interfejs do memcached z użyciem biblioteki libmemcached
 Name:		%{php_name}-pecl-%{modname}
+# PHP >= 7 only, for older PHP see 2.2.x branch
 Version:	3.0.0
-Release:	0.1
+Release:	0.2
 License:	PHP 3.01
 Group:		Development/Languages/PHP
 Source0:	https://github.com/php-memcached-dev/php-memcached/archive/php7/%{modname}-%{version}.tar.gz
 # Source0-md5:	df81b124ac101bd21922deb0ef2ad9b9
 URL:		http://pecl.php.net/package/memcached/
 BuildRequires:	%{php_name}-devel >= 4:7.0.0
-BuildRequires:	cyrus-sasl-devel
+%{?with_sasl:BuildRequires:	cyrus-sasl-devel}
 BuildRequires:	fastlz-devel
 BuildRequires:	libmemcached-devel >= 1.0.18
 BuildRequires:	pkgconfig
@@ -41,8 +50,12 @@ rm fastlz/fastlz.c
 %build
 phpize
 %configure \
-	--with-system-fastlz \
-	--enable-memcached-json
+	%{__enable_disable igbinary memcached-igbinary} \
+	%{__enable_disable json memcached-json} \
+	%{__enable_disable msgpack memcached-msgpack} \
+	%{__enable_disable sasl memcached-sasl} \
+	%{__enable_disable session memcached-session} \
+	--with-system-fastlz
 %{__make}
 
 %install
