@@ -21,6 +21,7 @@ Source0:	https://github.com/php-memcached-dev/php-memcached/archive/php7/%{modna
 # Source0-md5:	df81b124ac101bd21922deb0ef2ad9b9
 URL:		http://pecl.php.net/package/memcached/
 BuildRequires:	%{php_name}-devel >= 4:7.0.0
+%{?with_igbinary:BuildRequires:	%{php_name}-pecl-igbinary-devel}
 %{?with_sasl:BuildRequires:	cyrus-sasl-devel}
 BuildRequires:	fastlz-devel
 BuildRequires:	libmemcached-devel >= 1.0.18
@@ -30,11 +31,13 @@ BuildRequires:	rpmbuild(macros) >= 1.650
 BuildRequires:	zlib-devel
 %if %{with tests}
 BuildRequires:	%{php_name}-cli
-BuildRequires:	%{php_name}-spl
+%{?with_igbinary:BuildRequires:	%{php_name}-pecl-igbinary}
 %{?with_session:BuildRequires:	%{php_name}-session}
+BuildRequires:	%{php_name}-spl
 %endif
 %{?requires_php_extension}
 Suggests:	%{php_name}-pecl-igbinary
+Suggests:	%{php_name}-session
 Provides:	php(%{modname}) = %{version}
 Obsoletes:	php-pecl-memcached < 2.2.0-1
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -72,6 +75,9 @@ phpize
 %if %{with session}
 	-d extension=%{php_extensiondir}/session.so \
 %endif
+%if %{with igbinary}
+	-d extension=%{php_extensiondir}/igbinary.so \
+%endif
 	-d extension=%{modname}.so \
 	-m > modules.log
 grep %{modname} modules.log
@@ -79,8 +85,7 @@ grep %{modname} modules.log
 export NO_INTERACTION=1 REPORT_EXIT_STATUS=1 MALLOC_CHECK_=2
 %{__make} test \
 	PHP_EXECUTABLE=%{__php} \
-	PHP_TEST_SHARED_SYSTEM_EXTENSIONS="spl%{?with_session: session}"
-
+	PHP_TEST_SHARED_SYSTEM_EXTENSIONS="spl%{?with_session: session}%{?with_igbinary: igbinary}"
 %endif
 
 %install
