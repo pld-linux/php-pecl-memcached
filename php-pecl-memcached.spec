@@ -2,7 +2,7 @@
 # Conditional build:
 %bcond_without	igbinary	# memcached igbinary serializer support
 %bcond_without	json		# memcached json serializer support
-%bcond_with	msgpack		# memcached msgpack serializer support
+%bcond_without	msgpack		# memcached msgpack serializer support
 %bcond_without	sasl		# memcached sasl support
 %bcond_without	session		# memcached session handler support
 %bcond_without	tests		# build without tests
@@ -12,9 +12,9 @@
 Summary:	Interface to memcached via libmemcached library
 Summary(pl.UTF-8):	Interfejs do memcached z użyciem biblioteki libmemcached
 Name:		%{php_name}-pecl-%{modname}
-# PHP >= 7 only, for older PHP see 2.2.x branch
+# for PHP < 7 support see 2.2.x branch
 Version:	3.0.0
-Release:	0.3
+Release:	0.4
 License:	PHP 3.01
 Group:		Development/Languages/PHP
 Source0:	https://github.com/php-memcached-dev/php-memcached/archive/php7/%{modname}-%{version}.tar.gz
@@ -22,6 +22,7 @@ Source0:	https://github.com/php-memcached-dev/php-memcached/archive/php7/%{modna
 URL:		http://pecl.php.net/package/memcached/
 BuildRequires:	%{php_name}-devel >= 4:7.0.0
 %{?with_igbinary:BuildRequires:	%{php_name}-pecl-igbinary-devel}
+%{?with_msgpack:BuildRequires:	%{php_name}-pecl-msgpack-devel}
 %{?with_sasl:BuildRequires:	cyrus-sasl-devel}
 BuildRequires:	fastlz-devel
 BuildRequires:	libmemcached-devel >= 1.0.18
@@ -32,11 +33,13 @@ BuildRequires:	zlib-devel
 %if %{with tests}
 BuildRequires:	%{php_name}-cli
 %{?with_igbinary:BuildRequires:	%{php_name}-pecl-igbinary}
+%{?with_msgpack:BuildRequires:	%{php_name}-pecl-msgpack}
 %{?with_session:BuildRequires:	%{php_name}-session}
 BuildRequires:	%{php_name}-spl
 %endif
 %{?requires_php_extension}
 Suggests:	%{php_name}-pecl-igbinary
+Suggests:	%{php_name}-pecl-msgpack
 Suggests:	%{php_name}-session
 Provides:	php(%{modname}) = %{version}
 Obsoletes:	php-pecl-memcached < 2.2.0-1
@@ -82,6 +85,9 @@ phpize
 %if %{with igbinary}
 	-d extension=%{php_extensiondir}/igbinary.so \
 %endif
+%if %{with msgpack}
+	-d extension=%{php_extensiondir}/msgpack.so \
+%endif
 	-d extension=%{modname}.so \
 	-m > modules.log
 grep %{modname} modules.log
@@ -91,7 +97,7 @@ cat <<'EOF' > run-tests.sh
 export NO_INTERACTION=1 REPORT_EXIT_STATUS=1 MALLOC_CHECK_=2
 exec %{__make} test \
 	PHP_EXECUTABLE=%{__php} \
-	PHP_TEST_SHARED_SYSTEM_EXTENSIONS="spl%{?with_session: session}%{?with_igbinary: igbinary}" \
+	PHP_TEST_SHARED_SYSTEM_EXTENSIONS="spl%{?with_session: session}%{?with_igbinary: igbinary}%{?with_msgpack: msgpack}" \
 	RUN_TESTS_SETTINGS="-q $*"
 EOF
 chmod +x run-tests.sh
