@@ -82,10 +82,17 @@ phpize
 	-m > modules.log
 grep %{modname} modules.log
 
+cat <<'EOF' > run-tests.sh
+#!/bin/sh
 export NO_INTERACTION=1 REPORT_EXIT_STATUS=1 MALLOC_CHECK_=2
-%{__make} test \
+exec %{__make} test \
 	PHP_EXECUTABLE=%{__php} \
-	PHP_TEST_SHARED_SYSTEM_EXTENSIONS="spl%{?with_session: session}%{?with_igbinary: igbinary}"
+	PHP_TEST_SHARED_SYSTEM_EXTENSIONS="spl%{?with_session: session}%{?with_igbinary: igbinary}" \
+	RUN_TESTS_SETTINGS="-q $*"
+EOF
+chmod +x run-tests.sh
+
+./run-tests.sh
 %endif
 
 %install
