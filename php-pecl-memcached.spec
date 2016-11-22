@@ -12,6 +12,7 @@ Source0:	https://github.com/php-memcached-dev/php-memcached/archive/php7/%{modna
 URL:		http://pecl.php.net/package/memcached/
 BuildRequires:	%{php_name}-devel >= 4:5.2.0
 BuildRequires:	cyrus-sasl-devel
+BuildRequires:	fastlz-devel
 BuildRequires:	libmemcached-devel >= 1.0
 BuildRequires:	rpmbuild(macros) >= 1.650
 BuildRequires:	zlib-devel
@@ -33,9 +34,12 @@ API do komunikacji z serwerami memcached.
 %setup -qc
 mv php-memcached-*/{.??*,*} .
 
+rm fastlz/fastlz.c
+
 %build
 phpize
 %configure \
+	--with-system-fastlz \
 	--enable-memcached-json
 %{__make}
 
