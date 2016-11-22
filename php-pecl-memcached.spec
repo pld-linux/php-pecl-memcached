@@ -77,7 +77,7 @@ xfail() {
 	EOF
 }
 
-%if 0
+%ifarch %{x8664}
 xfail Memcached::getByKey with CAS [tests/experimental/get_bykey_cas.phpt]
 xfail Memcached::getDelayedByKey with CAS [tests/experimental/getdelayed_bykey_cas.phpt]
 xfail Memcached::getDelayedByKey with callback exception [tests/experimental/getdelayed_cbthrows.phpt]
@@ -87,6 +87,7 @@ xfail Memcached::getStats [tests/experimental/stats.phpt]
 xfail Memcached::getStats with bad server [tests/experimental/stats_badserver.phpt]
 xfail Memcached store and fetch type and value correctness using JSON serializer [tests/types_json.phpt]
 xfail Memcached multi store and multi fetch type and value correctness using JSON serializer [tests/types_json_multi.phpt]
+%endif
 %ifarch x32
 xfail Memcached::addServer unix doamin socket [tests/experimental/addserver_unixdomain.phpt]
 xfail Memcached::set/delete UDP [tests/experimental/get_udp.phpt]
@@ -94,7 +95,6 @@ xfail Memcached::getDelayedByKey with bad server [tests/experimental/getdelayed_
 xfail Memcached::getServerByKey [tests/getserverbykey.phpt]
 xfail Memcached result codes. [tests/rescode.phpt]
 xfail Memcached::setMulti [tests/setmulti.phpt]
-%endif
 %endif
 
 %build
