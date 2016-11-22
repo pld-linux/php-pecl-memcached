@@ -14,6 +14,8 @@ BuildRequires:	%{php_name}-devel >= 4:7.0.0
 BuildRequires:	cyrus-sasl-devel
 BuildRequires:	fastlz-devel
 BuildRequires:	libmemcached-devel >= 1.0.18
+BuildRequires:	pkgconfig
+BuildRequires:	re2c
 BuildRequires:	rpmbuild(macros) >= 1.650
 BuildRequires:	zlib-devel
 %{?requires_php_extension}
