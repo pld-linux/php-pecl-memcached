@@ -77,6 +77,7 @@ xfail() {
 	EOF
 }
 
+%if 0
 xfail Memcached::getByKey with CAS [tests/experimental/get_bykey_cas.phpt]
 xfail Memcached::getDelayedByKey with CAS [tests/experimental/getdelayed_bykey_cas.phpt]
 xfail Memcached::getDelayedByKey with callback exception [tests/experimental/getdelayed_cbthrows.phpt]
@@ -93,6 +94,7 @@ xfail Memcached::getDelayedByKey with bad server [tests/experimental/getdelayed_
 xfail Memcached::getServerByKey [tests/getserverbykey.phpt]
 xfail Memcached result codes. [tests/rescode.phpt]
 xfail Memcached::setMulti [tests/setmulti.phpt]
+%endif
 %endif
 
 %build
