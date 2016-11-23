@@ -77,7 +77,7 @@ xfail() {
 	EOF
 }
 
-%ifarch %{x8664}
+%ifarch %{x8664} x32
 xfail Memcached::getByKey with CAS [tests/experimental/get_bykey_cas.phpt]
 xfail Memcached::getDelayedByKey with CAS [tests/experimental/getdelayed_bykey_cas.phpt]
 xfail Memcached::getDelayedByKey with callback exception [tests/experimental/getdelayed_cbthrows.phpt]
